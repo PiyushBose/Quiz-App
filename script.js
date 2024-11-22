@@ -43,6 +43,9 @@ btn.addEventListener("click", () => {
         
         idx ++;
         loadEndScreen();
+
+        for(let option of options)
+            option.checked = false;
     }
     else reload();
 });
@@ -51,12 +54,10 @@ function loadEndScreen(){
     document.querySelector(".question").innerHTML = `You answered ${score}/${quizData.length} questions correctly`;
     document.querySelector(".submit").innerHTML = "Reload";
     document.querySelector(".options").classList.add("hide");
-    console.log("end");
 }
 
 function reload(){
     render(0);
     idx = 0;
     score = 0;
-    console.log("reload");
 }

@@ -7,18 +7,40 @@ function render(i){
     document.querySelector("#option-2-text").innerHTML = curr.b;
     document.querySelector("#option-3-text").innerHTML = curr.c;
     document.querySelector("#option-4-text").innerHTML = curr.d;
+    document.querySelector(".submit").innerHTML = "Submit";
+    document.querySelector(".options").classList.remove("hide");
 }
 
 let idx = 0;
 
 render(idx);
 
+let score = 0;
+
 const btn = document.querySelector(".submit");
 
 btn.addEventListener("click", () => {
-    if(idx < quizData.length - 1) 
+    if(idx < quizData.length - 1) {
+        const options = document.getElementsByName("answer");
+
+        for(let option of options)
+            if(option.checked)
+                if(option.value === quizData[idx].correct)
+                    score ++;
+            
         render(++ idx);
+
+        for(let option of options)
+            option.checked = false;
+    }
     else if(idx === quizData.length - 1){
+        const options = document.getElementsByName("answer");
+
+        for(let option of options)
+            if(option.checked)
+                if(option.value === quizData[idx].correct)
+                    score ++;
+        
         idx ++;
         loadEndScreen();
     }
@@ -26,11 +48,15 @@ btn.addEventListener("click", () => {
 });
 
 function loadEndScreen(){
+    document.querySelector(".question").innerHTML = `You answered ${score}/${quizData.length} questions correctly`;
+    document.querySelector(".submit").innerHTML = "Reload";
+    document.querySelector(".options").classList.add("hide");
     console.log("end");
 }
 
 function reload(){
     render(0);
     idx = 0;
+    score = 0;
     console.log("reload");
 }
